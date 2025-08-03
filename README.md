@@ -53,6 +53,13 @@ User Details Page: SSR
 
 #### Usage of Firebase Cloud Functions
 - We're using Cloud Functions as a proxy to connect to the OpenWeather API, to avoid leaking API keys through the frontend;
-- We make sure users are authenticated and have the correct role to 
+- We make sure users are authenticated and have the correct role to read/write to the database;
+
+#### Automated Tests
+
+#### Connecting to CI/CD pipeline
+
+#### Data Validation with Firebase Rules
+
 
 #### Deployment Strategies for the Backend with IaC

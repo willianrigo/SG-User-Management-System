@@ -1,0 +1,28 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "name": {
+          ".validate": "newData.isString() && newData.val().length < 100"
+        },
+        "email": {
+          ".validate": "newData.isString() && newData.val().matches(/^\\S+@\\S+\\.\\S+$/)"
+        },
+        "lat": {
+          ".validate": "auth.token.admin === true && newData.isNumber()"
+        },
+        "lon": {
+          ".validate": "auth.token.admin === true && newData.isNumber()"
+        },
+        "zip": {
+          ".validate": "newData.isString() && newData.val().matches(/^\\d{5}$/)"
+        },
+        "lastUpdated": {
+          ".validate": "newData.isNumber() && newData.val() <= now"
+        }
+      }
+    }
+  }
+}

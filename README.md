@@ -53,6 +53,20 @@ User Details Page: SSR
 
 #### Usage of Firebase Cloud Functions
 - We're using Cloud Functions as a proxy to connect to the OpenWeather API, to avoid leaking API keys through the frontend;
-- We make sure users are authenticated and have the correct role to 
+- We make sure users are authenticated and have the correct role to read/write to the database;
+
+#### Automated Tests
+
+#### Connecting to CI/CD pipeline
+
+#### Data Validation with Firebase Rules
+
 
 #### Deployment Strategies for the Backend with IaC
+
+
+
+# Setup
+
+### Backend/Firebase
+- In order to deploy the configuration files inside of the `/backend` folder, make sure to assign a valid Firebase project name in the `.firebaserc` file, by replacing `project-name-here` by your project's name.

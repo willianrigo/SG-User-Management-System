@@ -63,3 +63,10 @@ User Details Page: SSR
 
 
 #### Deployment Strategies for the Backend with IaC
+
+
+
+# Setup
+
+### Backend/Firebase
+- In order to deploy the configuration files inside of the `/backend` folder, make sure to assign a valid Firebase project name in the `.firebaserc` file, by replacing `project-name-here` by your project's name.

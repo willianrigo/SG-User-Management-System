@@ -9,9 +9,9 @@ export interface IUser {
 }
 
 export interface IGeoData {
-    lat: string,
-    lon: string,
-    timezone: string,
+    lat: number,
+    lon: number,
+    timezone: number,
     cityName: string
 }
 

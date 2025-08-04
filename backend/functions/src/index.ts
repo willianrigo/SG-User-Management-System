@@ -78,7 +78,7 @@ export const fetchGeoDataOnCreate = onValueCreated("/users/{uid}", async (event)
         logger.log("Check Point 4");
         try {
             const zip = user.zip;
-            const apiKey = '7afa46f2e91768e7eeeb9001ce40de19' // process.env.OPENWEATHER_API_KEY;
+            const apiKey = process.env.OPENWEATHER_API_KEY;
             const geoUrl = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${apiKey}`;
             logger.log("Check Point 5, geoUrl: ", geoUrl);
             const response = await fetch(geoUrl);

@@ -51,10 +51,10 @@ export default function UsersPage() {
   return (
     <div className="p-6 max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
+        <h1 className="text-3xl font-bold text-black">User Management</h1>
         <Link
           href={generateNewUserId()}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+          className="bg-black text-white px-4 py-2 font-medium border border-black hover:bg-white hover:text-black transition-colors"
         >
           Add New User
         </Link>
@@ -62,50 +62,50 @@ export default function UsersPage() {
 
       {usersList.length === 0 ? (
         <div className="text-center py-12">
-          <div className="text-gray-500 text-lg">No users found</div>
-          <div className="text-gray-400 mt-2">Add your first user to get started</div>
+          <div className="text-black text-lg">No users found</div>
+          <div className="text-black mt-2">Add your first user to get started</div>
         </div>
       ) : (
-        <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+        <div className="bg-white border border-black overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-black">
+              <thead className="bg-white">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider border-b border-black">
                     Name
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider border-b border-black">
                     Email
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider border-b border-black">
                     ZIP Code
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider border-b border-black">
                     Location
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider border-b border-black">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-black">
                 {usersList.map((user) => (
                   <tr key={user.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
+                      <div className="text-sm font-medium text-black">
                         {user.name}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-black">
                         {user.email || "—"}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{user.zip}</div>
+                      <div className="text-sm text-black">{user.zip}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-black">
                         {user.geoData?.cityName ? (
                           <div>
                             <div className="font-medium">{user.geoData.cityName}</div>
@@ -121,14 +121,14 @@ export default function UsersPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                       <Link
                         href={`/users/${user.id}`}
-                        className="text-blue-600 hover:text-blue-900 transition-colors"
+                        className="text-black hover:underline transition-colors"
                       >
                         Edit
                       </Link>
                       <button
                         onClick={() => handleDelete(user.id)}
                         disabled={deletingUsers.has(user.id)}
-                        className="text-red-600 hover:text-red-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="text-black hover:underline disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                       >
                         {deletingUsers.has(user.id) ? "Deleting..." : "Delete"}
                       </button>
@@ -141,7 +141,7 @@ export default function UsersPage() {
         </div>
       )}
 
-      <div className="mt-8 text-sm text-gray-600">
+      <div className="mt-8 text-sm text-black">
         <p className="mb-2">
           <strong>Total Users:</strong> {usersList.length}
         </p>

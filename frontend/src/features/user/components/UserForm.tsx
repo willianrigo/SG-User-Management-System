@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { ref, set, update } from "firebase/database";
 import { getRTDB } from "@/shared/firebase/init";
 import { createRequestId } from "@/shared/utils/requestId";
@@ -11,6 +12,7 @@ const zipRegex = /^\d{5}$/;
 
 export function UserForm({ userId }: { userId: string }) {
   const { user } = useAuth();
+  const router = useRouter();
   const [name, setName] = useState("");
   const [zip, setZip] = useState("");
   const [email, setEmail] = useState("");
@@ -18,12 +20,40 @@ export function UserForm({ userId }: { userId: string }) {
   const [submitting, setSubmitting] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
   
-  // Use the authenticated user's UID, not the URL param
-  const actualUserId = user?.uid || userId;
+  // For new users, use the URL param (generated ID), for existing users use their ID
+  const actualUserId = userId;
   const { status, loading: statusLoading } = useRequestStatus(actualUserId, requestId || "");
 
   // Feedback from enrichment
   const enrichmentError = status?.status === "error" ? status.errorMessage : null;
+
+  // Reset form state when userId changes (new user)
+  useEffect(() => {
+    setName("");
+    setZip("");
+    setEmail("");
+    setRequestId(null);
+    setLocalError(null);
+    setSubmitting(false);
+  }, [userId]);
+
+  // Redirect to users list after successful enrichment
+  useEffect(() => {
+    if (!statusLoading && status && status.status === "success") {
+      // Show success message for 2 seconds, then redirect
+      const timer = setTimeout(() => {
+        // Reset form state before redirect
+        setName("");
+        setZip("");
+        setEmail("");
+        setRequestId(null);
+        setLocalError(null);
+        router.push("/users");
+      }, 2000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [statusLoading, status, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,6 +82,8 @@ export function UserForm({ userId }: { userId: string }) {
       lastRequestId: newRequestId,
     };
 
+    console.log("Creating/updating user with ID:", actualUserId, "Payload:", payload);
+
     try {
       // Upsert user basic info; Cloud Function will enrich asynchronously
       await set(userRef, payload);
@@ -64,14 +96,14 @@ export function UserForm({ userId }: { userId: string }) {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border">
-      <h2 className="text-xl font-semibold mb-6 text-gray-900">Create / Update User</h2>
+    <div className="bg-white p-6 border border-black">
+      <h2 className="text-xl font-semibold mb-6 text-black">Create / Update User</h2>
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Name *</label>
+          <label className="block text-sm font-medium text-black mb-2">Name *</label>
           <input
             type="text"
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full border border-black px-3 py-2 focus:outline-none text-black"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter full name"
@@ -80,10 +112,10 @@ export function UserForm({ userId }: { userId: string }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">ZIP Code *</label>
+          <label className="block text-sm font-medium text-black mb-2">ZIP Code *</label>
           <input
             type="text"
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full border border-black px-3 py-2 focus:outline-none text-black"
             value={zip}
             onChange={(e) => setZip(e.target.value)}
             placeholder="12345"
@@ -91,14 +123,14 @@ export function UserForm({ userId }: { userId: string }) {
             title="Please enter a 5-digit ZIP code"
             required
           />
-          <p className="text-xs text-gray-500 mt-1">5-digit US ZIP code for automatic location lookup</p>
+          <p className="text-xs text-black mt-1">5-digit US ZIP code for automatic location lookup</p>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Email (optional)</label>
+          <label className="block text-sm font-medium text-black mb-2">Email (optional)</label>
           <input
             type="email"
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full border border-black px-3 py-2 focus:outline-none text-black"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="user@example.com"
@@ -108,71 +140,46 @@ export function UserForm({ userId }: { userId: string }) {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-medium px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="w-full bg-black text-white font-medium px-4 py-2 border border-black hover:bg-white hover:text-black disabled:opacity-50 transition-colors focus:outline-none"
         >
-          {submitting ? (
-            <span className="flex items-center justify-center">
-              <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              Saving...
-            </span>
-          ) : (
-            "Save User"
-          )}
+          {submitting ? "Saving..." : "Save User"}
         </button>
       </form>
 
       {localError && (
-        <div className="mt-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-md">
+        <div className="mt-4 p-3 bg-white border border-black text-black">
           <div className="flex">
-            <svg className="w-5 h-5 text-red-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+            <span className="mr-2">Error:</span>
             {localError}
           </div>
         </div>
       )}
 
       {requestId && (
-        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
+        <div className="mt-4 p-4 bg-white border border-black">
           <div className="flex items-start">
-            <svg className="w-5 h-5 text-blue-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
             <div className="flex-1">
-              <p className="text-sm text-blue-700 mb-2">
+              <p className="text-sm text-black mb-2">
                 Processing geolocation data...
               </p>
-              <p className="text-xs text-blue-600 font-mono">
+              <p className="text-xs text-black font-mono">
                 Request ID: {requestId}
               </p>
               {statusLoading && (
                 <div className="flex items-center mt-2">
-                  <svg className="animate-spin h-4 w-4 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                  </svg>
-                  <span className="text-sm text-blue-600">Fetching location data...</span>
+                  <span className="text-sm text-black">Fetching location data...</span>
                 </div>
               )}
               {!statusLoading && status && status.status === "success" && (
                 <div className="flex items-center mt-2">
-                  <svg className="w-4 h-4 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-sm text-green-600 font-medium">Location enriched successfully!</span>
+                  <span className="text-sm text-black font-medium">Location enriched successfully - Redirecting to users list...</span>
                 </div>
               )}
               {!statusLoading && enrichmentError && (
                 <div className="flex items-start mt-2">
-                  <svg className="w-4 h-4 text-red-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
                   <div>
-                    <span className="text-sm text-red-600 font-medium">Enrichment failed:</span>
-                    <p className="text-sm text-red-600">{enrichmentError}</p>
+                    <span className="text-sm text-black font-medium">Enrichment failed:</span>
+                    <p className="text-sm text-black">{enrichmentError}</p>
                   </div>
                 </div>
               )}

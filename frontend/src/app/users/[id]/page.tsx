@@ -34,11 +34,11 @@ export default function UserPage({ params }: UserPageProps) {
         <div>
           <Link 
             href="/users" 
-            className="text-blue-600 hover:text-blue-800 text-sm mb-2 inline-block"
+            className="text-black hover:underline text-sm mb-2 inline-block"
           >
             ← Back to Users
           </Link>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-black">
             {userLoading ? 'Loading User...' : user ? `Edit ${user.name}` : 'Create New User'}
           </h1>
         </div>
@@ -53,39 +53,39 @@ export default function UserPage({ params }: UserPageProps) {
         {/* User Details Display */}
         <div>
           {user && (
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">Current User Details</h3>
+            <div className="bg-white p-6 border border-black">
+              <h3 className="text-lg font-semibold mb-4 text-black">Current User Details</h3>
               
               <div className="space-y-3">
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">User ID</dt>
-                  <dd className="mt-1 text-sm text-gray-900 font-mono bg-white px-2 py-1 rounded border">
+                  <dt className="text-sm font-medium text-black">User ID</dt>
+                  <dd className="mt-1 text-sm text-black font-mono bg-white px-2 py-1 border border-black">
                     {user.id}
                   </dd>
                 </div>
 
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Name</dt>
-                  <dd className="mt-1 text-sm text-gray-900">{user.name}</dd>
+                  <dt className="text-sm font-medium text-black">Name</dt>
+                  <dd className="mt-1 text-sm text-black">{user.name}</dd>
                 </div>
 
                 {user.email && (
                   <div>
-                    <dt className="text-sm font-medium text-gray-500">Email</dt>
-                    <dd className="mt-1 text-sm text-gray-900">{user.email}</dd>
+                    <dt className="text-sm font-medium text-black">Email</dt>
+                    <dd className="mt-1 text-sm text-black">{user.email}</dd>
                   </div>
                 )}
 
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">ZIP Code</dt>
-                  <dd className="mt-1 text-sm text-gray-900">{user.zip}</dd>
+                  <dt className="text-sm font-medium text-black">ZIP Code</dt>
+                  <dd className="mt-1 text-sm text-black">{user.zip}</dd>
                 </div>
 
                 {user.geoData ? (
                   <div>
-                    <dt className="text-sm font-medium text-gray-500">Location Information</dt>
-                    <dd className="mt-1 text-sm text-gray-900">
-                      <div className="bg-white p-3 rounded border">
+                    <dt className="text-sm font-medium text-black">Location Information</dt>
+                    <dd className="mt-1 text-sm text-black">
+                      <div className="bg-white p-3 border border-black">
                         <div className="grid grid-cols-2 gap-2 text-xs">
                           <div>
                             <strong>City:</strong> {user.geoData.cityName || 'Unknown'}
@@ -105,8 +105,8 @@ export default function UserPage({ params }: UserPageProps) {
                   </div>
                 ) : (
                   <div>
-                    <dt className="text-sm font-medium text-gray-500">Location Information</dt>
-                    <dd className="mt-1 text-sm text-gray-400">
+                    <dt className="text-sm font-medium text-black">Location Information</dt>
+                    <dd className="mt-1 text-sm text-black">
                       Location data will be automatically fetched after saving
                     </dd>
                   </div>
@@ -114,8 +114,8 @@ export default function UserPage({ params }: UserPageProps) {
 
                 {user.lastRequestId && (
                   <div>
-                    <dt className="text-sm font-medium text-gray-500">Last Request ID</dt>
-                    <dd className="mt-1 text-xs text-gray-600 font-mono bg-white px-2 py-1 rounded border">
+                    <dt className="text-sm font-medium text-black">Last Request ID</dt>
+                    <dd className="mt-1 text-xs text-black font-mono bg-white px-2 py-1 border border-black">
                       {user.lastRequestId}
                     </dd>
                   </div>
@@ -125,9 +125,9 @@ export default function UserPage({ params }: UserPageProps) {
           )}
 
           {!user && !userLoading && (
-            <div className="bg-blue-50 p-6 rounded-lg">
-              <h3 className="text-lg font-semibold mb-2 text-blue-900">Creating New User</h3>
-              <p className="text-sm text-blue-700">
+            <div className="bg-white p-6 border border-black">
+              <h3 className="text-lg font-semibold mb-2 text-black">Creating New User</h3>
+              <p className="text-sm text-black">
                 Fill out the form to create a new user. Location data (latitude, longitude, and timezone) 
                 will be automatically fetched based on the ZIP code you provide.
               </p>

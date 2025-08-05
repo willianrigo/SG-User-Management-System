@@ -54,19 +54,26 @@ User Details Page: SSR
 #### Usage of Firebase Cloud Functions
 - We're using Cloud Functions as a proxy to connect to the OpenWeather API, to avoid leaking API keys through the frontend;
 - We make sure users are authenticated and have the correct role to read/write to the database;
+- For automatically fetching lat/lon and timezone values, an `onCreate` Firebase RTDB trigger is set up to connect to the OpenWeather API and update these values automatically after the a new user entry is created or updated;
 
 #### Automated Tests
+- Using Jest + firebase-function-tests;
 
 #### Connecting to CI/CD pipeline
 
 #### Data Validation with Firebase Rules
 
+#### Error Handling
+- In the case of the cloud function not being able to fetch the pair of lat/lon values, an error will stored in the `requests` object containing the `request_id` that was sent to by the frontend, in this way the frontend can know if any error happened durin the creation/update of a given user object.
 
 #### Deployment Strategies for the Backend with IaC
-
-
 
 # Setup
 
 ### Backend/Firebase
+#### Running Locally
+- Make sure you're using Firebase `v14.11.2` or higher.
 - In order to deploy the configuration files inside of the `/backend` folder, make sure to assign a valid Firebase project name in the `.firebaserc` file, by replacing `project-name-here` by your project's name.
+- Make sure you have firebase-tools installed and updated in your local environment or do it with the command `npm i -g firebase-tools`.
+- Login with your firebase admin account with `firebase login` command.
+- Initialize the Firebase emulators with the `firebase init emulators` command inside the `/backend` folder and after configuring it execute it with `firebase emulators:start`.

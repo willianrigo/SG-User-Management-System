@@ -8,16 +8,18 @@
           ".validate": "newData.isString() && newData.val().length < 100"
         },
         "email": {
-          ".validate": "newData.isString() && newData.val().matches(/^\\S+@\\S+\\.\\S+$/)"
+          ".validate": "newData.isString() && newData.val().matches(/^.+@.+\\..+$/)"
         },
-        "lat": {
-          ".validate": "auth.token.admin === true && newData.isNumber()"
-        },
-        "lon": {
-          ".validate": "auth.token.admin === true && newData.isNumber()"
-        },
-        "zip": {
-          ".validate": "newData.isString() && newData.val().matches(/^\\d{5}$/)"
+        "geoData": {
+          "lat": {
+            ".validate": "auth.token.admin === true && newData.isNumber()"
+          },
+          "lon": {
+            ".validate": "auth.token.admin === true && newData.isNumber()"
+          },
+          "timezone": {
+            ".validate": "auth.token.admin === true && newData.isNumber()"
+          }
         },
         "lastUpdated": {
           ".validate": "newData.isNumber() && newData.val() <= now"

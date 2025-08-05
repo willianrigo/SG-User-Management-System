@@ -1,0 +1,32 @@
+{
+  "users": {
+    "userId1": {
+      "name": "John Doe",
+      "email": "johndoe@gmail.com",
+      "zip": "94040",
+      "lastRequestId": "requestId1"
+    },
+    "userId2": {
+      "name": "Mary Anna",
+      "email": "mary@gmail.com",
+      "zip": "0011004400545",
+      "lastRequestId": "requestId2"
+    },
+    "userId3": {
+      "name": "Jay Cutler",
+      "email": "jay",
+      "zip": "94040",
+      "lastRequestId": "requestId3"
+    },
+    "userId4": {
+      "name": "Blake Dexter",
+      "email": "blake@gmail.com",
+      "lastRequestId": "requestId4"
+    },
+    "userId5": {
+      "name": "Ozzy Osbourne",
+      "email": "ozzy@gmail.com",
+      "zip": "94040"
+    }
+  }
+}

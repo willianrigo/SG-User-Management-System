@@ -27,8 +27,6 @@ Key value of Firebase RTDB:
 #### DB Connection
 - Connecting directly from a frontend application to a database is not usually a good practice. However, Firebase RTDB provides frontend SDKs that enable developers to make the most out of one of its main capabilities which is online-offline realtime syncing. Not all operations made in the database are done via this direct connection though. 
 
-#### Folder Structure / Code Architecture
-
 #### Stylization
 - Used Tailwind.css for visual styles.
 
@@ -43,10 +41,6 @@ Key value of Firebase RTDB:
 
 #### Error Handling
 - In the case of the cloud function not being able to fetch the pair of lat/lon values, an error will stored in the `requests` object containing the `request_id` that was sent to by the frontend, in this way the frontend can know if any error happened durin the creation/update of a given user object.
-
-#### Deployment Strategies for the Backend with IaC
-- The `/backend` project can be easily deployed to a Firebase project with a Blaze Plan (in order to use Authentication).
-- The `/frontend` code can be easily deployed to a serverless service such as Vercel since we're using Next.js.
 
 # Setup
 
@@ -81,5 +75,21 @@ to
 ### Frontend
 - Navigate to the `/frontend` folder and run `npm i` to install the dependencies.
 
-# Executing everything
-- To start the entire backend + frontend stack make the script executable with `start-dev.sh` 
+### Executing everything
+
+#### Linux/macOS
+- To start the entire backend + frontend stack make the `start-dev.sh` script executable with `chmod +x start-dev.sh` and then run `./start-dev.sh`
+
+#### Windows
+- Run the following commands in separate terminals:
+  1. Navigate to `/backend` and run `firebase emulators:start`
+  2. Navigate to `/frontend` and run `npm run dev`
+
+#### Alternative (All platforms)
+- Manually start each service:
+  1. Backend: `cd backend && firebase emulators:start`
+  2. Frontend: `cd frontend && npm run dev`
+
+## Deployment Strategies
+- The `/backend` project can be easily deployed to a Firebase project with a Blaze Plan (in order to use Authentication).
+- The `/frontend` code can be easily deployed to a serverless service such as Vercel since we're using Next.js. 

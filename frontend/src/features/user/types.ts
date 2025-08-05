@@ -1,7 +1,6 @@
 export interface IUser {
     id: string;
     name: string;
-    email?: string;
     zip: string;
     lastRequestId: string;
     geoData?: {

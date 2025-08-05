@@ -15,7 +15,6 @@ export function UserForm({ userId }: { userId: string }) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [zip, setZip] = useState("");
-  const [email, setEmail] = useState("");
   const [requestId, setRequestId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
@@ -31,7 +30,6 @@ export function UserForm({ userId }: { userId: string }) {
   useEffect(() => {
     setName("");
     setZip("");
-    setEmail("");
     setRequestId(null);
     setLocalError(null);
     setSubmitting(false);
@@ -45,7 +43,6 @@ export function UserForm({ userId }: { userId: string }) {
         // Reset form state before redirect
         setName("");
         setZip("");
-        setEmail("");
         setRequestId(null);
         setLocalError(null);
         router.push("/users");
@@ -78,7 +75,6 @@ export function UserForm({ userId }: { userId: string }) {
       id: actualUserId,
       name: name.trim(),
       zip: zip.trim(),
-      email: email.trim() || user?.email || undefined,
       lastRequestId: newRequestId,
     };
 
@@ -124,17 +120,6 @@ export function UserForm({ userId }: { userId: string }) {
             required
           />
           <p className="text-xs text-black mt-1">5-digit US ZIP code for automatic location lookup</p>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-black mb-2">Email (optional)</label>
-          <input
-            type="email"
-            className="w-full border border-black px-3 py-2 focus:outline-none text-black"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="user@example.com"
-          />
         </div>
 
         <button

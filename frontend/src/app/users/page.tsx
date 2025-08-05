@@ -75,9 +75,6 @@ export default function UsersPage() {
                     Name
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider border-b border-black">
-                    Email
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider border-b border-black">
                     ZIP Code
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider border-b border-black">
@@ -94,11 +91,6 @@ export default function UsersPage() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-black">
                         {user.name}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-black">
-                        {user.email || "—"}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">

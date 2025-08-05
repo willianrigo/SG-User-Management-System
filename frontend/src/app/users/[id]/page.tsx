@@ -69,13 +69,6 @@ export default function UserPage({ params }: UserPageProps) {
                   <dd className="mt-1 text-sm text-black">{user.name}</dd>
                 </div>
 
-                {user.email && (
-                  <div>
-                    <dt className="text-sm font-medium text-black">Email</dt>
-                    <dd className="mt-1 text-sm text-black">{user.email}</dd>
-                  </div>
-                )}
-
                 <div>
                   <dt className="text-sm font-medium text-black">ZIP Code</dt>
                   <dd className="mt-1 text-sm text-black">{user.zip}</dd>
@@ -128,8 +121,7 @@ export default function UserPage({ params }: UserPageProps) {
             <div className="bg-white p-6 border border-black">
               <h3 className="text-lg font-semibold mb-2 text-black">Creating New User</h3>
               <p className="text-sm text-black">
-                Fill out the form to create a new user. Location data (latitude, longitude, and timezone) 
-                will be automatically fetched based on the ZIP code you provide.
+                Fill out the form to create a new user. Location data will be automatically fetched based on the ZIP code.
               </p>
             </div>
           )}

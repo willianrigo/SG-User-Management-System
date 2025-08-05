@@ -1,7 +1,7 @@
 import { setGlobalOptions, logger } from "firebase-functions";
-import * as admin from "firebase-admin";           // Import the whole admin SDK namespace
-import { onValueCreated } from "firebase-functions/database";
+import * as admin from "firebase-admin";
 import { IGeoData, IRequest, IUser } from "./types";
+import { runWith } from "firebase-functions/v1";
 
 setGlobalOptions({ maxInstances: 5 });
 admin.initializeApp();
@@ -43,9 +43,17 @@ const deleteUserEntry = async (userId: string) => {
 }
 
 
-export const fetchGeoDataOnCreate = onValueCreated("/users/{uid}", async (event) => {
-    const requesterUserId = event.params.uid;
-    const snapshot = event.data;
+export const fetchGeoDataOnCreate = runWith({
+    secrets: ['OPENWEATHER_API_KEY']
+  }).database.ref('/users/{uid}').onCreate(async (snapshot, context) => {
+    const apiKey = process.env.OPENWEATHER_API_KEY;
+
+    if (!apiKey) {
+        logger.error("OpenWeather API key not found");
+        return;
+    }
+
+    const requesterUserId = context.params.uid;
     const user: IUser = snapshot.val();
     const userId = snapshot.ref.key!;
     const requestId: string = user.lastRequestId;
@@ -79,6 +87,7 @@ export const fetchGeoDataOnCreate = onValueCreated("/users/{uid}", async (event)
         try {
             const zip = user.zip;
             const apiKey = process.env.OPENWEATHER_API_KEY;
+            logger.log("OPENWEATHER KEY: ", apiKey);
             const geoUrl = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${apiKey}`;
             logger.log("Check Point 5, geoUrl: ", geoUrl);
             const response = await fetch(geoUrl);

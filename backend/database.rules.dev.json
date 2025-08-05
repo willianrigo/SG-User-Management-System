@@ -1,0 +1,45 @@
+{
+  "rules": {
+    "users": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      "$uid": {
+        "name": {
+          ".validate": "newData.isString() && newData.val().length < 100"
+        },
+        "email": {
+          ".validate": "newData.isString() && newData.val().matches(/^.+@.+\\..+$/)"
+        },
+        "zip": {
+          ".validate": "newData.isString() && newData.val().matches(/^\\d{5}$/)"
+        },
+        "geoData": {
+          "lat": {
+            ".validate": "newData.isNumber()"
+          },
+          "lon": {
+            ".validate": "newData.isNumber()"
+          },
+          "timezone": {
+            ".validate": "newData.isNumber()"
+          },
+          "cityName": {
+            ".validate": "newData.isString()"
+          }
+        }
+      }
+    },
+    "requests": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      "$requestId": {
+        "status": {
+          ".validate": "newData.isString()"
+        },
+        "timestamp": {
+          ".validate": "newData.isNumber()"
+        }
+      }
+    }
+  }
+}

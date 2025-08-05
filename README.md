@@ -9,11 +9,8 @@
 - If the Zip Code changes, Latitude, Longitude and Timezone should be automatically updated;
 
 ### Extra Features
-- Interactive map with displaying of registered and unregistered users. It also visually displays the location change history for the user with vectors;
-- Local connectivity indicator;
+- Users entries with Invalid ZIP codes are automatically deleted after being created/updated;
 - ACL with Auth System (connected to Firebase Auth);
-- Automated tests;
-- Lighthouse audit;
 
 ## Implemetation details and rationale
 
@@ -68,6 +65,7 @@ User Details Page: SSR
 
 #### Deployment Strategies for the Backend with IaC
 
+
 # Setup
 
 ### Backend/Firebase
@@ -79,3 +77,18 @@ User Details Page: SSR
 - Add the `OPENWEATHER_API_KEY` with the command `firebase functions:secrets:set OPENWEATHER_API_KEY`.
 - Login with your firebase admin account with `firebase login` command.
 - Initialize the Firebase emulators with the `firebase init emulators` command inside the `/backend` folder and after configuring it execute it with `firebase emulators:start`.
+
+#### Deploying in a live Firebase project
+- In order to enforce that only Users with admin privileges to manage users in the system, change the following section in `firebase.json` file
+
+``` json
+"database": {
+    "rules": "database.rules.dev.json"
+},```
+to
+"database": {
+    "rules": "database.rules.json"
+},```
+
+
+  

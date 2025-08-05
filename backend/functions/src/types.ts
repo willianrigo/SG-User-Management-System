@@ -1,7 +1,6 @@
 export interface IUser {
     userId: string,
     name: string,
-    email: string,
     zip: string,
     lastUpdated: Date,
     lastRequestId: string,

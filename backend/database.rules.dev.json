@@ -1,8 +1,8 @@
 {
   "rules": {
     "users": {
-      ".read": "auth != null && auth.token.admin === true",
-      ".write": "auth != null && auth.token.admin === true",
+      ".read": "auth != null",
+      ".write": "auth != null",
       "$uid": {
         "name": {
           ".validate": "newData.isString() && newData.val().length < 100"
@@ -26,15 +26,12 @@
           "cityName": {
             ".validate": "newData.isString()"
           }
-        },
-        "lastUpdated": {
-          ".validate": "newData.isNumber() && newData.val() <= now"
         }
       }
     },
     "requests": {
-      ".read": "auth != null && auth.token.admin === true",
-      ".write": "auth != null && auth.token.admin === true",
+      ".read": "auth != null",
+      ".write": "auth != null",
       "$requestId": {
         "status": {
           ".validate": "newData.isString()"

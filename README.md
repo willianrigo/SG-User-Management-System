@@ -72,8 +72,10 @@ User Details Page: SSR
 
 ### Backend/Firebase
 #### Running Locally
+- Note: You will need a Firebase project with Blaze Plan in order to use the Firebase Secrets service.
 - Make sure you're using Firebase `v14.11.2` or higher.
 - In order to deploy the configuration files inside of the `/backend` folder, make sure to assign a valid Firebase project name in the `.firebaserc` file, by replacing `project-name-here` by your project's name.
 - Make sure you have firebase-tools installed and updated in your local environment or do it with the command `npm i -g firebase-tools`.
+- Add the `OPENWEATHER_API_KEY` with the command `firebase functions:secrets:set OPENWEATHER_API_KEY`.
 - Login with your firebase admin account with `firebase login` command.
 - Initialize the Firebase emulators with the `firebase init emulators` command inside the `/backend` folder and after configuring it execute it with `firebase emulators:start`.
